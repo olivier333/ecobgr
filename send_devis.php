@@ -62,12 +62,6 @@ $corps .= "Fréquence : $frequence\r\n\r\n";
 $corps .= "Message   :\r\n$message\r\n\r\n";
 $corps .= "---\r\nEnvoyé le " . date('d/m/Y à H:i') . "\r\n";
 
-// DEBUG TEMPORAIRE — à supprimer après résolution
-$corps .= "\r\n\r\n=== DEBUG RAW _POST ===\r\n";
-foreach ($_POST as $k => $v) {
-    $corps .= "  [$k] = " . (strlen($v) > 0 ? '"'.$v.'"' : '(vide)') . "\r\n";
-}
-$corps .= "=== FIN DEBUG ===\r\n";
 
 // ⚠️ LWS : le From DOIT être un email du domaine hébergé
 $headers  = "From: devis@ecobgr.fr\r\n";
