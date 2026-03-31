@@ -558,18 +558,22 @@
   document.getElementById("devisForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    const prenom  = document.getElementById("prenom").value.trim();
-    const nom     = document.getElementById("nom").value.trim();
-    const email   = document.getElementById("email").value.trim();
-    const tel     = document.getElementById("tel").value.trim();
-    const type    = document.getElementById("type").value;
-    const surface = document.getElementById("surface").value;
-    const freq    = document.getElementById("freq").value;
-    const adresse = document.getElementById("adresse").value.trim();
-    const message = document.getElementById("message").value.trim();
-    const rgpd    = document.getElementById("rgpd").checked;
+    // Lecture native depuis le <form> — plus fiable sur mobile
+    const form    = e.target;
+    const get     = name => (form.elements[name]?.value || "").trim();
+    const rgpd    = form.elements["rgpd"]?.checked;
 
-    // Validation RGPD (non couverte par required natif)
+    const prenom  = get("prenom");
+    const nom     = get("nom");
+    const email   = get("email");
+    const tel     = get("tel");
+    const type    = get("type");
+    const surface = get("surface");
+    const freq    = get("freq");
+    const adresse = get("adresse");
+    const message = get("message");
+
+    // Validation RGPD
     if (!rgpd) { alert("Merci d'accepter l'utilisation de vos données."); return; }
 
     // Afficher spinner
@@ -577,7 +581,7 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Envoi en cours...';
 
-    // Construction du FormData → send_devis.php
+    // FormData avec noms attendus par send_devis.php
     const data = new FormData();
     data.append("nom",        (prenom + " " + nom).trim());
     data.append("email",      email);
