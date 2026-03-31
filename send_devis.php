@@ -22,14 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Récupération et nettoyage des champs
-$nom        = strip_tags(trim($_POST['nom']        ?? ''));
-$email      = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-$telephone  = strip_tags(trim($_POST['telephone']  ?? ''));
-$service    = strip_tags(trim($_POST['service']    ?? ''));
-$superficie = strip_tags(trim($_POST['superficie'] ?? ''));
-$frequence  = strip_tags(trim($_POST['frequence']  ?? ''));
-$message    = strip_tags(trim($_POST['message']    ?? ''));
-$adresse    = strip_tags(trim($_POST['adresse']    ?? ''));
+$nom        = strip_tags(trim($_POST['nom']        ?? '')) ?: 'Non renseigné';
+$email      = filter_var(trim($_POST['email']      ?? ''), FILTER_SANITIZE_EMAIL);
+$telephone  = strip_tags(trim($_POST['telephone']  ?? '')) ?: 'Non renseigné';
+$service    = strip_tags(trim($_POST['service']    ?? '')) ?: 'Non précisé';
+$superficie = strip_tags(trim($_POST['superficie'] ?? '')) ?: 'Non renseignée';
+$frequence  = strip_tags(trim($_POST['frequence']  ?? '')) ?: 'Non renseignée';
+$message    = strip_tags(trim($_POST['message']    ?? '')) ?: 'Non renseigné';
+$adresse    = strip_tags(trim($_POST['adresse']    ?? '')) ?: 'Non renseignée';
 
 // Validation minimale
 if (empty($nom) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {

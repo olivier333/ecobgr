@@ -429,23 +429,23 @@
           <label>Type de prestation *</label>
           <select id="type">
             <option value="">— Sélectionnez un service —</option>
-            <option>Nettoyage fin de chantier</option>
-            <option>Bureaux / Espaces professionnels</option>
-            <option>Airbnb / Location saisonnière</option>
-            <option>Espace privé / Résidentiel</option>
-            <option>Cabinet médical / Collectivité</option>
-            <option>Copropriété / Parties communes</option>
-            <option>Autre prestation</option>
+            <option value="Nettoyage fin de chantier">Nettoyage fin de chantier</option>
+            <option value="Bureaux / Espaces professionnels">Bureaux / Espaces professionnels</option>
+            <option value="Airbnb / Location saisonnière">Airbnb / Location saisonnière</option>
+            <option value="Espace privé / Résidentiel">Espace privé / Résidentiel</option>
+            <option value="Cabinet médical / Collectivité">Cabinet médical / Collectivité</option>
+            <option value="Copropriété / Parties communes">Copropriété / Parties communes</option>
+            <option value="Autre prestation">Autre prestation</option>
           </select>
         </div>
         <div class="form-row">
           <div class="fg">
             <label>Surface approximative</label>
-            <select id="surface"><option value="">— Surface —</option><option>Moins de 50 m²</option><option>50 – 100 m²</option><option>100 – 250 m²</option><option>250 – 500 m²</option><option>Plus de 500 m²</option></select>
+            <select id="surface"><option value="">— Surface —</option><option value="Moins de 50 m²">Moins de 50 m²</option><option value="50 – 100 m²">50 – 100 m²</option><option value="100 – 250 m²">100 – 250 m²</option><option value="250 – 500 m²">250 – 500 m²</option><option value="Plus de 500 m²">Plus de 500 m²</option></select>
           </div>
           <div class="fg">
             <label>Fréquence souhaitée</label>
-            <select id="freq"><option value="">— Fréquence —</option><option>Intervention unique</option><option>Hebdomadaire</option><option>Bi-hebdomadaire</option><option>Mensuel</option><option>À définir ensemble</option></select>
+            <select id="freq"><option value="">— Fréquence —</option><option value="Intervention unique">Intervention unique</option><option value="Hebdomadaire">Hebdomadaire</option><option value="Bi-hebdomadaire">Bi-hebdomadaire</option><option value="Mensuel">Mensuel</option><option value="À définir ensemble">À définir ensemble</option></select>
           </div>
         </div>
         <div class="fg"><label>Ville / Code postal</label><input type="text" id="adresse" placeholder="Ex : Choisy-le-Roi, 94600"/></div>
@@ -579,13 +579,13 @@
 
     // Construction du FormData → send_devis.php
     const data = new FormData();
-    data.append("nom",        prenom + " " + nom);
+    data.append("nom",        (prenom + " " + nom).trim());
     data.append("email",      email);
-    data.append("telephone",  tel || "Non renseigné");
-    data.append("service",    type);
-    data.append("superficie", surface || "Non renseignée");
-    data.append("frequence",  freq || "Non renseignée");
-    data.append("adresse",    adresse || "Non renseignée");
+    data.append("telephone",  tel       || "Non renseigné");
+    data.append("service",    type      || "Non précisé");
+    data.append("superficie", surface   || "Non renseignée");
+    data.append("frequence",  freq      || "Non renseignée");
+    data.append("adresse",    adresse   || "Non renseignée");
     data.append("message",    message);
 
     try {
