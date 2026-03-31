@@ -6,8 +6,14 @@
  */
 
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: https://ecobgr.fr');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+
+// Preflight CORS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -33,29 +39,43 @@ if (empty($nom) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $destinataire = 'devis@ecobgr.fr';
-$sujet        = "Nouveau devis ECO-BGR — $service — $nom";
+$sujet        = "=?UTF-8?B?" . base64_encode("Nouveau devis ECO-BGR — $service — $nom") . "?=";
 
-$corps  = "=== NOUVEAU DEVIS ECO-BGR ===\n\n";
-$corps .= "Nom       : $nom\n";
-$corps .= "Email     : $email\n";
-$corps .= "Téléphone : $telephone\n";
-$corps .= "Adresse   : $adresse\n\n";
-$corps .= "Service   : $service\n";
-$corps .= "Superficie: $superficie\n";
-$corps .= "Fréquence : $frequence\n\n";
-$corps .= "Message   :\n$message\n\n";
-$corps .= "---\nEnvoyé le " . date('d/m/Y à H:i') . "\n";
+$corps  = "=== NOUVEAU DEVIS ECO-BGR ===\r\n\r\n";
+$corps .= "Nom       : $nom\r\n";
+$corps .= "Email     : $email\r\n";
+$corps .= "Téléphone : $telephone\r\n";
+$corps .= "Adresse   : $adresse\r\n\r\n";
+$corps .= "Service   : $service\r\n";
+$corps .= "Superficie: $superficie\r\n";
+$corps .= "Fréquence : $frequence\r\n\r\n";
+$corps .= "Message   :\r\n$message\r\n\r\n";
+$corps .= "---\r\nEnvoyé le " . date('d/m/Y à H:i') . "\r\n";
 
-$headers  = "From: noreply@ecobgr.fr\r\n";
+// ⚠️ LWS : le From DOIT être un email du domaine hébergé
+$headers  = "From: devis@ecobgr.fr\r\n";
 $headers .= "Reply-To: $email\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$headers .= "Content-Transfer-Encoding: 8bit\r\n";
+$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
 $envoye = mail($destinataire, $sujet, $corps, $headers);
 
-if ($envoye) {
-    echo json_encode(['success' => true, 'message' => 'Devis envoyé avec succès']);
-} else {
+// Log en cas d'échec (visible dans cPanel > Fichiers > mail_errors.log)
+if (!$envoye) {
+    $log  = date('Y-m-d H:i:s') . " | ECHEC mail()\n";
+    $log .= "  From    : devis@ecobgr.fr\n";
+    $log .= "  To      : $destinataire\n";
+    $log .= "  Nom     : $nom\n";
+    $log .= "  Email   : $email\n";
+    $log .= "  Erreur  : " . error_get_last()['message'] ?? 'inconnue';
+    $log .= "\n---\n";
+    file_put_contents(__DIR__ . '/mail_errors.log', $log, FILE_APPEND | LOCK_EX);
+
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => "Erreur lors de l'envoi"]);
+    exit;
 }
+
+echo json_encode(['success' => true, 'message' => 'Devis envoyé avec succès']);
