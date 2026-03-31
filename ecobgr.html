@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ECO-BGR Nettoyage Multi Services</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     :root {
       --blue:       #1a4fa0;
@@ -508,13 +506,8 @@
 </footer>
 
 <script>
-  // ── EmailJS init ─────────────────────────────────────────────────
-  // ⚠️  REMPLACEZ ces 3 valeurs par vos identifiants EmailJS
-  const EMAILJS_PUBLIC_KEY  = "VOTRE_PUBLIC_KEY";   // Ex: "user_aBcDeFgHiJk..."
-  const EMAILJS_SERVICE_ID  = "VOTRE_SERVICE_ID";   // Ex: "service_xyz123"
-  const EMAILJS_TEMPLATE_ID = "VOTRE_TEMPLATE_ID";  // Ex: "template_abc456"
-
-  emailjs.init(EMAILJS_PUBLIC_KEY);
+  // ── Config envoi ─────────────────────────────────────────────────
+  const DEVIS_ENDPOINT = "send_devis.php";
 
   // ── Popup helpers ────────────────────────────────────────────────
   function showPopup(success, emailAddr) {
@@ -584,27 +577,29 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Envoi en cours...';
 
-    // Paramètres du template EmailJS
-    const templateParams = {
-      to_email:   "devis@ecobgr.fr",
-      from_name:  prenom + " " + nom,
-      from_email: email,
-      phone:      tel || "Non renseigné",
-      service:    type,
-      surface:    surface || "Non renseignée",
-      frequence:  freq || "Non renseignée",
-      adresse:    adresse || "Non renseignée",
-      message:    message,
-      reply_to:   email
-    };
+    // Construction du FormData → send_devis.php
+    const data = new FormData();
+    data.append("nom",        prenom + " " + nom);
+    data.append("email",      email);
+    data.append("telephone",  tel || "Non renseigné");
+    data.append("service",    type);
+    data.append("superficie", surface || "Non renseignée");
+    data.append("frequence",  freq || "Non renseignée");
+    data.append("adresse",    adresse || "Non renseignée");
+    data.append("message",    message);
 
     try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      btn.innerHTML = "✓ Demande envoyée";
-      btn.style.background = "#0d6e3a";
-      showPopup(true, email);
+      const res  = await fetch(DEVIS_ENDPOINT, { method: "POST", body: data });
+      const json = await res.json();
+      if (json.success) {
+        btn.innerHTML = "✓ Demande envoyée";
+        btn.style.background = "#0d6e3a";
+        showPopup(true, email);
+      } else {
+        throw new Error(json.message || "Erreur serveur");
+      }
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Erreur envoi devis:", err);
       btn.disabled = false;
       btn.innerHTML = "Envoyer ma demande de devis →";
       showPopup(false, email);
