@@ -417,17 +417,18 @@
         </div>
       </div>
       <div class="devis-form reveal d2">
+        <form id="devisForm" novalidate>
         <div class="form-row">
-          <div class="fg"><label>Prénom *</label><input type="text" id="prenom" placeholder="Votre prénom"/></div>
-          <div class="fg"><label>Nom *</label><input type="text" id="nom" placeholder="Votre nom"/></div>
+          <div class="fg"><label>Prénom *</label><input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required/></div>
+          <div class="fg"><label>Nom *</label><input type="text" id="nom" name="nom" placeholder="Votre nom" required/></div>
         </div>
         <div class="form-row">
-          <div class="fg"><label>Email *</label><input type="email" id="email" placeholder="votre@email.fr"/></div>
-          <div class="fg"><label>Téléphone</label><input type="tel" id="tel" placeholder="06 XX XX XX XX"/></div>
+          <div class="fg"><label>Email *</label><input type="email" id="email" name="email" placeholder="votre@email.fr" required/></div>
+          <div class="fg"><label>Téléphone</label><input type="tel" id="tel" name="tel" placeholder="06 XX XX XX XX"/></div>
         </div>
         <div class="fg">
           <label>Type de prestation *</label>
-          <select id="type">
+          <select id="type" name="type" required>
             <option value="">— Sélectionnez un service —</option>
             <option value="Nettoyage fin de chantier">Nettoyage fin de chantier</option>
             <option value="Bureaux / Espaces professionnels">Bureaux / Espaces professionnels</option>
@@ -441,25 +442,26 @@
         <div class="form-row">
           <div class="fg">
             <label>Surface approximative</label>
-            <select id="surface"><option value="">— Surface —</option><option value="Moins de 50 m²">Moins de 50 m²</option><option value="50 – 100 m²">50 – 100 m²</option><option value="100 – 250 m²">100 – 250 m²</option><option value="250 – 500 m²">250 – 500 m²</option><option value="Plus de 500 m²">Plus de 500 m²</option></select>
+            <select id="surface" name="surface"><option value="">— Surface —</option><option value="Moins de 50 m²">Moins de 50 m²</option><option value="50 – 100 m²">50 – 100 m²</option><option value="100 – 250 m²">100 – 250 m²</option><option value="250 – 500 m²">250 – 500 m²</option><option value="Plus de 500 m²">Plus de 500 m²</option></select>
           </div>
           <div class="fg">
             <label>Fréquence souhaitée</label>
-            <select id="freq"><option value="">— Fréquence —</option><option value="Intervention unique">Intervention unique</option><option value="Hebdomadaire">Hebdomadaire</option><option value="Bi-hebdomadaire">Bi-hebdomadaire</option><option value="Mensuel">Mensuel</option><option value="À définir ensemble">À définir ensemble</option></select>
+            <select id="freq" name="freq"><option value="">— Fréquence —</option><option value="Intervention unique">Intervention unique</option><option value="Hebdomadaire">Hebdomadaire</option><option value="Bi-hebdomadaire">Bi-hebdomadaire</option><option value="Mensuel">Mensuel</option><option value="À définir ensemble">À définir ensemble</option></select>
           </div>
         </div>
-        <div class="fg"><label>Ville / Code postal</label><input type="text" id="adresse" placeholder="Ex : Choisy-le-Roi, 94600"/></div>
+        <div class="fg"><label>Ville / Code postal</label><input type="text" id="adresse" name="adresse" placeholder="Ex : Choisy-le-Roi, 94600"/></div>
         <div class="fg">
           <label>Décrivez votre besoin *</label>
-          <textarea id="message" placeholder="Décrivez l'état actuel des lieux, vos attentes spécifiques, contraintes d'accès, délais souhaités, toute information utile pour que nous vous fassions la meilleure offre possible..."></textarea>
+          <textarea id="message" name="message" placeholder="Décrivez l'état actuel des lieux, vos attentes spécifiques, contraintes d'accès, délais souhaités, toute information utile pour que nous vous fassions la meilleure offre possible..." required></textarea>
         </div>
         <div class="form-check">
-          <input type="checkbox" id="rgpd"/>
+          <input type="checkbox" id="rgpd" name="rgpd" required/>
           <label for="rgpd">J'accepte que mes données soient utilisées dans le cadre de ma demande de devis. Elles ne seront pas transmises à des tiers.</label>
         </div>
-        <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+        <button type="submit" class="submit-btn" id="submitBtn">
           Envoyer ma demande de devis →
         </button>
+        </form>
       </div>
     </div>
   </div>
@@ -553,7 +555,9 @@
   document.addEventListener("keydown", e => { if(e.key === "Escape") closePopup(); });
 
   // ── Envoi du formulaire ──────────────────────────────────────────
-  async function handleSubmit() {
+  document.getElementById("devisForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
     const prenom  = document.getElementById("prenom").value.trim();
     const nom     = document.getElementById("nom").value.trim();
     const email   = document.getElementById("email").value.trim();
@@ -565,12 +569,8 @@
     const message = document.getElementById("message").value.trim();
     const rgpd    = document.getElementById("rgpd").checked;
 
-    // Validation
-    if (!prenom || !nom)    { alert("Merci de renseigner votre prénom et nom."); return; }
-    if (!email)             { alert("Merci de renseigner votre adresse email."); return; }
-    if (!type)              { alert("Merci de sélectionner un type de prestation."); return; }
-    if (!message)           { alert("Merci de décrire votre besoin."); return; }
-    if (!rgpd)              { alert("Merci d'accepter l'utilisation de vos données."); return; }
+    // Validation RGPD (non couverte par required natif)
+    if (!rgpd) { alert("Merci d'accepter l'utilisation de vos données."); return; }
 
     // Afficher spinner
     const btn = document.getElementById("submitBtn");
@@ -581,11 +581,11 @@
     const data = new FormData();
     data.append("nom",        (prenom + " " + nom).trim());
     data.append("email",      email);
-    data.append("telephone",  tel       || "Non renseigné");
-    data.append("service",    type      || "Non précisé");
-    data.append("superficie", surface   || "Non renseignée");
-    data.append("frequence",  freq      || "Non renseignée");
-    data.append("adresse",    adresse   || "Non renseignée");
+    data.append("telephone",  tel     || "Non renseigné");
+    data.append("service",    type    || "Non précisé");
+    data.append("superficie", surface || "Non renseignée");
+    data.append("frequence",  freq    || "Non renseignée");
+    data.append("adresse",    adresse || "Non renseignée");
     data.append("message",    message);
 
     try {
@@ -604,7 +604,7 @@
       btn.innerHTML = "Envoyer ma demande de devis →";
       showPopup(false, email);
     }
-  }
+  });
 
   // ── Scroll reveal ────────────────────────────────────────────────
   const obs = new IntersectionObserver(entries => {
