@@ -21,15 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Récupération et nettoyage des champs
-$nom        = strip_tags(trim($_POST['nom']        ?? '')) ?: 'Non renseigné';
-$email      = filter_var(trim($_POST['email']      ?? ''), FILTER_SANITIZE_EMAIL);
-$telephone  = strip_tags(trim($_POST['telephone']  ?? '')) ?: 'Non renseigné';
-$service    = strip_tags(trim($_POST['service']    ?? '')) ?: 'Non précisé';
-$superficie = strip_tags(trim($_POST['superficie'] ?? '')) ?: 'Non renseignée';
-$frequence  = strip_tags(trim($_POST['frequence']  ?? '')) ?: 'Non renseignée';
-$message    = strip_tags(trim($_POST['message']    ?? '')) ?: 'Non renseigné';
-$adresse    = strip_tags(trim($_POST['adresse']    ?? '')) ?: 'Non renseignée';
+// Récupération — accepte les deux conventions de nommage (JS renommé ET noms bruts HTML)
+function post($keys) {
+    foreach ((array)$keys as $k) {
+        $v = strip_tags(trim($_POST[$k] ?? ''));
+        if ($v !== '') return $v;
+    }
+    return '';
+}
+
+$prenom     = post('prenom');
+$nom_raw    = post('nom');
+$nom        = trim($prenom ? "$prenom $nom_raw" : $nom_raw) ?: 'Non renseigné';
+$email      = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$telephone  = post(['telephone', 'tel'])       ?: 'Non renseigné';
+$service    = post(['service',   'type'])      ?: 'Non précisé';
+$superficie = post(['superficie','surface'])   ?: 'Non renseignée';
+$frequence  = post(['frequence', 'freq'])      ?: 'Non renseignée';
+$message    = post('message')                  ?: 'Non renseigné';
+$adresse    = post('adresse')                  ?: 'Non renseignée';
 
 // Validation minimale
 if (empty($nom) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
