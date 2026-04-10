@@ -51,8 +51,9 @@
       min-height:72px;
     }
     .nav-logo img { height:56px; width:auto; display:block; object-fit:contain; filter:drop-shadow(0 2px 6px rgba(26,79,160,0.12)); }
-    .nav-bar nav { display:flex; justify-content:center; gap:0.4rem; }
-    .nav-bar nav a { text-decoration:none; color:var(--text); font-size:0.82rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 1.1rem; border-radius:4px; transition:all .25s; }
+    .nav-bar nav { display:flex; justify-content:center; gap:0; }
+    .nav-bar nav a { text-decoration:none; color:var(--text); font-size:0.82rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 1.4rem; border-right:1px solid var(--border); transition:all .25s; }
+    .nav-bar nav a:first-child { border-left:1px solid var(--border); }
     .nav-bar nav a:hover { color:var(--blue-mid); background:var(--blue-pale); }
     .nav-cta { background:var(--blue); color:#fff !important; padding:0.65rem 1.5rem; border-radius:4px; text-decoration:none; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; box-shadow:0 3px 14px rgba(26,79,160,0.3); transition:all .3s; white-space:nowrap; }
     .nav-cta:hover { background:var(--blue-dark) !important; transform:translateY(-1px); }
@@ -304,9 +305,9 @@
   <div class="nav-bar">
     <a class="nav-logo" href="#accueil"><img src="logo.jpeg" alt="ECO-BGR"/></a>
     <nav>
-      <a href="#accueil">Accueil</a>
-      <a href="#nos-services">Services</a>
-      <a href="#devis">Devis</a>
+      <a href="#accueil">🏠 Accueil</a>
+      <a href="#nos-services">🧹 Services</a>
+      <a href="#devis">📋 Devis</a>
     </nav>
     <a href="#devis" class="nav-cta">Devis gratuit</a>
   </div>
