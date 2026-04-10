@@ -1,5 +1,6 @@
 # ECO-BGR — Cache control
 
+DirectoryIndex index.html
 
 # LiteSpeed : désactiver le cache serveur pour HTML/PHP
 <IfModule LiteSpeed>
