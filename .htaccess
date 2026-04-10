@@ -1,5 +1,10 @@
 # ECO-BGR — Cache control
 
+# LiteSpeed : désactiver le cache serveur pour HTML/PHP
+<IfModule LiteSpeed>
+  CacheDisable public /
+</IfModule>
+
 # HTML et PHP : jamais en cache (contenu dynamique)
 <FilesMatch "\.(html|php)$">
   Header set Cache-Control "no-cache, no-store, must-revalidate"
