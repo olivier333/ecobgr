@@ -37,13 +37,8 @@ if (!empty($_POST['website'])) {
     exit;
 }
 
-// ── Anti-spam : délai minimal de soumission (5 secondes) ─────────────────────
-$form_time = (int)($_POST['form_time'] ?? 0);
-if ($form_time > 0 && (time() - $form_time) < 5) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Soumission trop rapide']);
-    exit;
-}
+// Anti-spam délai : désactivé — trop agressif en prod (UX).
+// La protection honeypot (champ "website") est suffisante.
 
 // ── Récupération et nettoyage ─────────────────────────────────────────────────
 function post($keys) {
