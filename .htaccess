@@ -7,8 +7,11 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # 1. Forcer HTTPS (évite la boucle si déjà HTTPS)
+  # 1. Forcer HTTPS
+  # LWS termine parfois le SSL en amont (X-Forwarded-Proto) :
+  # on ne redirige que si AUCUNE des deux conditions n'indique HTTPS.
   RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # 2. Rediriger www vers non-www (canonical : ecobgr.fr)

@@ -356,7 +356,7 @@
     <p class="popup-msg" id="popupMsg">
       Votre demande de devis a bien été transmise à notre équipe.
     </p>
-    <p class="popup-detail" id="popupDetail">
+    <p class="popup-detail" id="popupDetail" style="display:none">
       Un email de confirmation a été envoyé à <strong id="popupEmail"></strong>.<br/>
       Notre équipe vous répondra dans les <strong>24h ouvrées</strong>.
     </p>
@@ -661,16 +661,12 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Envoi en cours...';
 
-    // FormData avec noms attendus par send_devis.php
-    const data = new FormData();
-    data.append("nom",        (prenom + " " + nom).trim());
-    data.append("email",      email);
-    data.append("telephone",  tel     || "Non renseigné");
-    data.append("service",    type    || "Non précisé");
-    data.append("superficie", surface || "Non renseignée");
-    data.append("frequence",  freq    || "Non renseignée");
-    data.append("adresse",    adresse || "Non renseignée");
-    data.append("message",    message);
+    // FormData depuis le <form> : capture tous les champs natifs
+    // incluant rgpd (checkbox), form_time (anti-spam) et website (honeypot)
+    const data = new FormData(form);
+    // Combiner prénom + nom dans un seul champ "nom" attendu par PHP
+    data.set("nom", (prenom + " " + nom).trim());
+    data.delete("prenom"); // évite que PHP lise prénom séparément et crée un doublon
 
     try {
       const res  = await fetch(DEVIS_ENDPOINT, { method: "POST", body: data });
