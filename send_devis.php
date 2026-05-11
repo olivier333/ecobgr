@@ -68,10 +68,10 @@ $errors = [];
 
 // Prénom/nom : lettres, espaces, tirets, apostrophes — 2 à 60 caractères
 if ($prenom !== '' && !preg_match('/^[\p{L}\s\'\-]{2,60}$/u', $prenom)) {
-    $errors[] = 'Prénom invalide';
+    $errors[] = 'Prénom invalide — uniquement lettres, espaces, apostrophes ou tirets';
 }
 if ($nom_raw !== '' && !preg_match('/^[\p{L}\s\'\-]{2,60}$/u', $nom_raw)) {
-    $errors[] = 'Nom invalide';
+    $errors[] = 'Nom invalide — uniquement lettres, espaces, apostrophes ou tirets';
 }
 
 // Email
