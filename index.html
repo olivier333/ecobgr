@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ECOBGR build: 20260511-v4 -->
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -356,9 +357,7 @@
     <p class="popup-msg" id="popupMsg">
       Votre demande de devis a bien été transmise à notre équipe.
     </p>
-    <p class="popup-detail" id="popupDetail" style="display:none">
-      Un email de confirmation a été envoyé à <strong id="popupEmail"></strong>.
-    </p>
+    <p class="popup-detail" id="popupDetail" style="display:none"></p>
     <button class="popup-close" onclick="closePopup()">Parfait, merci !</button>
   </div>
 </div>
@@ -485,8 +484,8 @@
         <form id="devisForm" novalidate>
         <!-- Honeypot anti-spam : invisible pour les humains, rempli par les bots -->
         <div style="display:none !important;position:absolute;left:-9999px;" aria-hidden="true">
-          <label for="website">Ne pas remplir</label>
-          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"/>
+          <label for="ecobgr_hp">Ne pas remplir</label>
+          <input type="text" id="ecobgr_hp" name="ecobgr_hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
           <input type="hidden" id="form_time" name="form_time"/>
         </div>
         <div class="form-row">
@@ -591,24 +590,27 @@
   });
 
   // ── Popup helpers ────────────────────────────────────────────────
-  function showPopup(success, emailAddr) {
+  function showPopup(success, emailAddr, errMsg) {
     const overlay = document.getElementById("popupOverlay");
     const box     = document.getElementById("popupBox");
     const icon    = document.getElementById("popupIcon");
     const title   = document.getElementById("popupTitle");
     const msg     = document.getElementById("popupMsg");
     const detail  = document.getElementById("popupDetail");
-    const pemail  = document.getElementById("popupEmail");
 
     if (success) {
       box.classList.remove("error");
+      title.style.color = "";
       icon.textContent  = "✅";
       title.textContent = "Demande envoyée avec succès !";
       msg.textContent   = "Votre demande de devis a bien été transmise à notre équipe ECO-BGR.";
       if (emailAddr) {
-        pemail.textContent = emailAddr;
+        detail.innerHTML = "Un email de confirmation a été envoyé à <strong>" +
+          emailAddr.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") +
+          "</strong>.";
         detail.style.display = "block";
       } else {
+        detail.innerHTML = "";
         detail.style.display = "none";
       }
     } else {
@@ -616,7 +618,8 @@
       icon.textContent  = "❌";
       title.style.color = "#c0392b";
       title.textContent = "Erreur d'envoi";
-      msg.textContent   = "Une erreur est survenue. Veuillez réessayer ou nous contacter directement au +33 7 58 88 14 15 ou +33 6 22 98 24 24.";
+      msg.textContent   = errMsg || "Une erreur est survenue. Veuillez réessayer ou nous contacter directement au +33 7 58 88 14 15 ou +33 6 22 98 24 24.";
+      detail.innerHTML  = "";
       detail.style.display = "none";
     }
 
@@ -676,19 +679,23 @@
       const text = await res.text();
       let result;
       try { result = JSON.parse(text); }
-      catch(e) { console.error("Réponse non-JSON:", text); throw new Error("Réponse serveur invalide"); }
+      catch(e) {
+        console.error("Réponse non-JSON (status=" + res.status + "):", text);
+        throw new Error("Réponse serveur invalide. Veuillez réessayer.");
+      }
       if (result.success === true) {
         btn.innerHTML = "✓ Demande envoyée";
         btn.style.background = "#0d6e3a";
         showPopup(true, result.confirmation === true ? email : null);
       } else {
+        console.error("Erreur serveur:", result);
         throw new Error(result.message || "Erreur d'envoi");
       }
     } catch (err) {
-      console.error("Erreur envoi devis:", err);
+      console.error("Erreur envoi devis:", err.message);
       btn.disabled = false;
       btn.innerHTML = "Envoyer ma demande de devis →";
-      showPopup(false);
+      showPopup(false, null, err.message);
     }
   });
 

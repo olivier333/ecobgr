@@ -30,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── Anti-spam honeypot ────────────────────────────────────────────────────────
-// Le champ "website" est invisible côté HTML : un bot le remplit, un humain non.
-if (!empty($_POST['website'])) {
+// Le champ "ecobgr_hp" est invisible côté HTML : un bot le remplit, un humain non.
+// Nom délibérément non-générique pour éviter l'autofill navigateur.
+if (!empty($_POST['ecobgr_hp'])) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Requête invalide']);
     exit;
@@ -93,11 +94,8 @@ if (empty($service) || $service === 'Non précisé') {
     $errors[] = 'Type de prestation obligatoire';
 }
 
-// Message : entre 10 et 2000 caractères
+// Message : optionnel — si renseigné, max 2000 caractères
 $msg_len = mb_strlen($message);
-if ($msg_len < 10) {
-    $errors[] = 'Message trop court (minimum 10 caractères)';
-}
 if ($msg_len > 2000) {
     $errors[] = 'Message trop long (maximum 2000 caractères)';
 }
