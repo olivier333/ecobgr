@@ -1,6 +1,22 @@
-# ECO-BGR — Cache control
+# ECO-BGR — Configuration Apache / LWS
 
 DirectoryIndex index.html
+
+# ══ REDIRECTIONS ═════════════════════════════════════════════════════════════
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. Forcer HTTPS (évite la boucle si déjà HTTPS)
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # 2. Rediriger www vers non-www (canonical : ecobgr.fr)
+  RewriteCond %{HTTP_HOST} ^www\.ecobgr\.fr$ [NC]
+  RewriteRule ^ https://ecobgr.fr%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ══ CACHE ════════════════════════════════════════════════════════════════════
 
 # LiteSpeed : désactiver le cache serveur pour HTML/PHP
 <IfModule LiteSpeed>
@@ -14,12 +30,50 @@ DirectoryIndex index.html
   Header set Expires "0"
 </FilesMatch>
 
-# Images et fonts : cache 1 an (assets statiques)
+# Images et fonts : cache 1 an (assets statiques immuables)
 <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico|svg|woff|woff2|ttf)$">
   Header set Cache-Control "public, max-age=31536000, immutable"
 </FilesMatch>
 
-# Compression gzip
+# CSS et JS : cache 1 semaine
+<FilesMatch "\.(css|js)$">
+  Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+
+# ══ COMPRESSION ══════════════════════════════════════════════════════════════
+
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml
 </IfModule>
+
+# ══ HEADERS SÉCURITÉ ═════════════════════════════════════════════════════════
+
+<IfModule mod_headers.c>
+  # Empêche le sniffing de type MIME
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Politique de referrer prudente
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Désactive les fonctionnalités inutiles (micro, géoloc, etc.)
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Clickjacking : autorise seulement le même domaine
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # CSP prudente : autorise Google Fonts, self, inline styles (utilisés dans le site)
+  # Note : unsafe-inline est nécessaire car les styles sont inline dans index.html
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self';"
+</IfModule>
+
+# ══ PROTECTION FICHIERS SENSIBLES ════════════════════════════════════════════
+
+# Bloquer l'accès direct aux logs
+<FilesMatch "\.log$">
+  Require all denied
+</FilesMatch>
+
+# Bloquer l'accès aux fichiers cachés (.git, .env, etc.)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

@@ -8,3 +8,11 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Fichiers locaux de génération (carte de visite, scripts locaux)
+gen_carte.py
+carte-visite-ecobgr.png
+carte-visite-philosophy.md
+
+# Claude Code
+.claude/
