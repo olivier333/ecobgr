@@ -357,8 +357,7 @@
       Votre demande de devis a bien été transmise à notre équipe.
     </p>
     <p class="popup-detail" id="popupDetail" style="display:none">
-      Un email de confirmation a été envoyé à <strong id="popupEmail"></strong>.<br/>
-      Notre équipe vous répondra dans les <strong>24h ouvrées</strong>.
+      Un email de confirmation a été envoyé à <strong id="popupEmail"></strong>.
     </p>
     <button class="popup-close" onclick="closePopup()">Parfait, merci !</button>
   </div>
@@ -592,7 +591,7 @@
   });
 
   // ── Popup helpers ────────────────────────────────────────────────
-  function showPopup(success, emailAddr, hasConfirmation) {
+  function showPopup(success, emailAddr) {
     const overlay = document.getElementById("popupOverlay");
     const box     = document.getElementById("popupBox");
     const icon    = document.getElementById("popupIcon");
@@ -606,8 +605,12 @@
       icon.textContent  = "✅";
       title.textContent = "Demande envoyée avec succès !";
       msg.textContent   = "Votre demande de devis a bien été transmise à notre équipe ECO-BGR.";
-      pemail.textContent = emailAddr;
-      detail.style.display = hasConfirmation ? "block" : "none";
+      if (emailAddr) {
+        pemail.textContent = emailAddr;
+        detail.style.display = "block";
+      } else {
+        detail.style.display = "none";
+      }
     } else {
       box.classList.add("error");
       icon.textContent  = "❌";
@@ -670,19 +673,22 @@
 
     try {
       const res  = await fetch(DEVIS_ENDPOINT, { method: "POST", body: data });
-      const json = await res.json();
-      if (json.success) {
+      const text = await res.text();
+      let result;
+      try { result = JSON.parse(text); }
+      catch(e) { console.error("Réponse non-JSON:", text); throw new Error("Réponse serveur invalide"); }
+      if (result.success === true) {
         btn.innerHTML = "✓ Demande envoyée";
         btn.style.background = "#0d6e3a";
-        showPopup(true, email, json.confirmation === true);
+        showPopup(true, result.confirmation === true ? email : null);
       } else {
-        throw new Error(json.message || "Erreur serveur");
+        throw new Error(result.message || "Erreur d'envoi");
       }
     } catch (err) {
       console.error("Erreur envoi devis:", err);
       btn.disabled = false;
       btn.innerHTML = "Envoyer ma demande de devis →";
-      showPopup(false, email);
+      showPopup(false);
     }
   });
 
