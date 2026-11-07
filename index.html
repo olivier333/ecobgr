@@ -2,7 +2,7 @@
 <!-- ECOBGR build: 20260511-v4 -->
 <html lang="fr">
 <head>
-  <!-- Consentement préalable : aucun chargement de Google Tag Manager avant accord. -->
+  <!-- Google Analytics 4 direct — chargé uniquement après consentement explicite. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){window.dataLayer.push(arguments);}
@@ -13,13 +13,14 @@
       ad_personalization: 'denied'
     });
     function ecobgrLoadAnalytics() {
-      if (window.ecobgrGtmLoaded) return;
-      window.ecobgrGtmLoaded = true;
+      if (window.ecobgrGa4Loaded) return;
+      window.ecobgrGa4Loaded = true;
       gtag('consent', 'update', { analytics_storage: 'granted' });
-      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      gtag('js', new Date());
+      gtag('config', 'G-D4Y0GD81PQ');
       var script = document.createElement('script');
       script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-PZWFTVXW';
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-D4Y0GD81PQ';
       document.head.appendChild(script);
     }
   </script>
@@ -382,7 +383,7 @@
 <body>
 <aside id="analytics-consent" class="analytics-consent" role="dialog" aria-label="Choix des cookies de mesure d'audience" hidden>
   <strong>Mesure d'audience</strong>
-  <p>Avec votre accord, nous utilisons Google Tag Manager pour mesurer les visites et améliorer notre site. Vous pouvez accepter ou refuser librement. Votre choix est modifiable depuis le bas de la page.</p>
+  <p>Avec votre accord, nous utilisons Google Analytics 4 pour mesurer les visites et améliorer notre site. Vous pouvez accepter ou refuser librement. Votre choix est modifiable depuis le bas de la page.</p>
   <div class="analytics-consent-actions">
     <button class="analytics-reject" type="button" id="analytics-reject">Refuser</button>
     <button class="analytics-accept" type="button" id="analytics-accept">Accepter</button>
@@ -399,7 +400,7 @@
       try { localStorage.setItem(key, choice); } catch (e) { /* affichage sur prochaine visite */ }
       banner.hidden = true;
       if (choice === 'accepted') ecobgrLoadAnalytics();
-      else if (window.ecobgrGtmLoaded) {
+      else if (window.ecobgrGa4Loaded) {
         gtag('consent', 'update', { analytics_storage: 'denied' });
         /* Déjà chargé : le retrait du consentement empêche les mesures suivantes. */
       }
