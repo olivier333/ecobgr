@@ -2,14 +2,27 @@
 <!-- ECOBGR build: 20260511-v4 -->
 <html lang="fr">
 <head>
-  <!-- Google Tag Manager — ECO-BGR -->
-  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-PZWFTVXW"></script>
+  <!-- Consentement préalable : aucun chargement de Google Tag Manager avant accord. -->
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    function gtag(){window.dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+    function ecobgrLoadAnalytics() {
+      if (window.ecobgrGtmLoaded) return;
+      window.ecobgrGtmLoaded = true;
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      gtag('js', new Date());
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-PZWFTVXW';
+      document.head.appendChild(script);
+    }
   </script>
-  <!-- End Google Tag Manager -->
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="google-site-verification" content="yj0qRZgmsJh8ZFGZmru42TCmHGSxd94W1-dQCsKb7bg"/>
@@ -355,8 +368,50 @@
       .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
     }
   </style>
+  <style>
+    .analytics-consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 9999; max-width: 760px; margin: auto; background: #fff; color: #1c2d4a; border: 1px solid #b7cce6; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,.2); font: 14px/1.5 Arial,sans-serif; }
+    .analytics-consent[hidden] { display: none !important; }
+    .analytics-consent p { margin: .5rem 0 1rem; }
+    .analytics-consent-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .analytics-consent button { border: 1px solid #1a4fa0; border-radius: 6px; padding: .65rem 1rem; font: inherit; cursor: pointer; min-height: 42px; }
+    .analytics-consent .analytics-accept { color: white; background: #1a4fa0; }
+    .analytics-consent .analytics-reject { color: #1a4fa0; background: white; }
+    .analytics-consent-manage { background: none; color: inherit; border: 0; text-decoration: underline; cursor: pointer; font: inherit; }
+  </style>
 </head>
 <body>
+<aside id="analytics-consent" class="analytics-consent" role="dialog" aria-label="Choix des cookies de mesure d'audience" hidden>
+  <strong>Mesure d'audience</strong>
+  <p>Avec votre accord, nous utilisons Google Tag Manager pour mesurer les visites et améliorer notre site. Vous pouvez accepter ou refuser librement. Votre choix est modifiable depuis le bas de la page.</p>
+  <div class="analytics-consent-actions">
+    <button class="analytics-reject" type="button" id="analytics-reject">Refuser</button>
+    <button class="analytics-accept" type="button" id="analytics-accept">Accepter</button>
+  </div>
+</aside>
+<script>
+  (function() {
+    var key = 'ecobgr_analytics_consent_v1';
+    var banner = document.getElementById('analytics-consent');
+    function getChoice() {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function setChoice(choice) {
+      try { localStorage.setItem(key, choice); } catch (e) { /* affichage sur prochaine visite */ }
+      banner.hidden = true;
+      if (choice === 'accepted') ecobgrLoadAnalytics();
+      else if (window.ecobgrGtmLoaded) {
+        gtag('consent', 'update', { analytics_storage: 'denied' });
+        /* Déjà chargé : le retrait du consentement empêche les mesures suivantes. */
+      }
+    }
+    document.getElementById('analytics-accept').addEventListener('click', function() { setChoice('accepted'); });
+    document.getElementById('analytics-reject').addEventListener('click', function() { setChoice('rejected'); });
+    window.ecobgrOpenAnalyticsPreferences = function() { banner.hidden = false; };
+    var choice = getChoice();
+    if (choice === 'accepted') ecobgrLoadAnalytics();
+    else if (choice !== 'rejected') banner.hidden = false;
+  })();
+</script>
 
 <!-- ══ POPUP CONFIRMATION ══ -->
 <div class="popup-overlay" id="popupOverlay">
@@ -550,6 +605,7 @@
 
 <!-- ══ FOOTER ══ -->
 <footer>
+  <button type="button" class="analytics-consent-manage" onclick="ecobgrOpenAnalyticsPreferences()">Gérer les cookies de mesure d'audience</button>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
