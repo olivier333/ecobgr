@@ -368,6 +368,19 @@
       .footer-top{grid-template-columns:1fr;gap:2rem;}
       .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
     }
+
+/* ECOBGR-SEO-01 — navigation et liens vers les nouvelles pages */
+.services-menu{position:relative;align-self:center;font-size:.82rem;font-weight:700;color:var(--text);}
+.services-menu summary{cursor:pointer;list-style:none;padding:.65rem .8rem;white-space:nowrap;}
+.services-menu summary::-webkit-details-marker{display:none;}
+.services-menu summary:after{content:" ▾";}
+.services-menu-panel{position:absolute;top:100%;left:0;min-width:235px;z-index:400;background:white;border:1px solid var(--border);border-radius:9px;box-shadow:0 15px 30px rgba(13,45,107,.15);display:flex;flex-direction:column;padding:.45rem;}
+.services-menu-panel a{display:block;padding:.65rem .8rem;color:var(--text);font-size:.79rem;letter-spacing:normal;text-transform:none;text-decoration:none;}
+.services-menu-panel a:hover,.services-menu-panel a:focus{background:var(--blue-pale);color:var(--blue-dark);}
+.service-detail-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem;margin:1.3rem 0 2rem;}
+.service-detail-links a{padding:.75rem 1rem;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--blue-dark);font-weight:700;background:var(--blue-ice);font-size:.85rem;}
+.service-detail-links a:hover,.service-detail-links a:focus{background:var(--blue-pale);}
+@media(max-width:900px){.services-menu-panel{left:auto;right:0;max-width:calc(100vw - 2rem)}.service-detail-links{grid-template-columns:1fr}}
   </style>
   <style>
     .analytics-consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 9999; max-width: 760px; margin: auto; background: #fff; color: #1c2d4a; border: 1px solid #b7cce6; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,.2); font: 14px/1.5 Arial,sans-serif; }
@@ -439,6 +452,14 @@
     <nav>
       <a href="#accueil">🏠 Accueil</a>
       <a href="#nos-services">🧹 Services</a>
+      <details class="services-menu"><summary>🧹 Prestations</summary><div class="services-menu-panel"><a href="/services/nettoyage-fin-chantier/">Fin de chantier</a>
+<a href="/services/nettoyage-bureaux/">Bureaux</a>
+<a href="/services/nettoyage-airbnb/">Airbnb</a>
+<a href="/services/nettoyage-residentiel/">Logements</a>
+<a href="/services/nettoyage-coproprietes/">Copropriétés</a>
+<a href="/services/nettoyage-commerces/">Commerces</a>
+<a href="/services/nettoyage-cabinets-medicaux/">Cabinets médicaux</a>
+<a href="/services/location-linge/">Location de linge</a></div></details>
       <a href="#devis">📋 Devis</a>
     </nav>
     <a href="#devis" class="nav-cta">Devis gratuit</a>
@@ -520,6 +541,14 @@
       <h2 class="section-title">Nos <span class="blue">prestations</span> en détail</h2>
       <p>Un catalogue complet de services de nettoyage adaptés à chaque situation. Découvrez l'ensemble de nos expertises pour trouver la solution qui vous correspond.</p>
     </div>
+    <div class="service-detail-links" aria-label="Découvrir toutes nos prestations"><a href="/services/nettoyage-fin-chantier/">Fin de chantier</a>
+<a href="/services/nettoyage-bureaux/">Bureaux</a>
+<a href="/services/nettoyage-airbnb/">Airbnb</a>
+<a href="/services/nettoyage-residentiel/">Logements</a>
+<a href="/services/nettoyage-coproprietes/">Copropriétés</a>
+<a href="/services/nettoyage-commerces/">Commerces</a>
+<a href="/services/nettoyage-cabinets-medicaux/">Cabinets médicaux</a>
+<a href="/services/location-linge/">Location de linge</a></div>
     <div class="services-grid">
       <div class="service-card reveal d1"><div class="service-num">01</div><div class="svc-icon">🏗️</div><h3 class="service-title">Nettoyage de Fin de Chantier</h3><p class="service-body">Après vos travaux de construction ou rénovation, nous prenons en charge le nettoyage complet : évacuation des déchets, dépoussiérage approfondi, nettoyage des vitres, des sols et de toutes les surfaces. Vos locaux sont prêts à l'emploi immédiatement après notre passage.</p><div class="service-tags"><span class="stag">Bâtiment neuf</span><span class="stag">Rénovation</span><span class="stag">Remise en état</span><span class="stag">Évacuation déchets</span></div></div>
       <div class="service-card reveal d2"><div class="service-num">02</div><div class="svc-icon">🏢</div><h3 class="service-title">Bureaux & Espaces Professionnels</h3><p class="service-body">Un environnement de travail propre favorise la productivité et le bien-être. Entretien régulier ou ponctuel de vos bureaux, open-spaces, salles de réunion, sanitaires et espaces communs — avec le soin et la discrétion que mérite votre activité.</p><div class="service-tags"><span class="stag">Entretien régulier</span><span class="stag">Open-space</span><span class="stag">Sanitaires</span><span class="stag">Copropriétés</span></div></div>
