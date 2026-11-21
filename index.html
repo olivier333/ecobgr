@@ -100,7 +100,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preload" as="image" href="/assets/brand/logo-principal.svg"/>
+  <link rel="preload" as="image" href="/assets/brand/logo-horizontal.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -382,6 +382,68 @@
 .service-detail-links a{padding:.75rem 1rem;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--blue-dark);font-weight:700;background:var(--blue-ice);font-size:.85rem;}
 .service-detail-links a:hover,.service-detail-links a:focus{background:var(--blue-pale);}
 @media(max-width:900px){.services-menu-panel{left:auto;right:0;max-width:calc(100vw - 2rem)}.service-detail-links{grid-template-columns:1fr}}
+
+    /* ECOBGR-UX-02 — Header compact et accueil sans espace vide */
+    header{position:sticky;top:0;left:auto;right:auto;}
+    .header-top{padding:.38rem clamp(1rem,3vw,2rem);}
+    .nav-bar{max-width:1480px;margin:0 auto;min-height:96px;padding:.45rem clamp(1rem,3vw,2rem);grid-template-columns:250px minmax(0,1fr) auto;column-gap:1.5rem;}
+    .nav-logo{display:flex;align-items:center;width:250px;max-width:100%;}
+    .nav-logo img{display:block;width:100%;height:auto;max-height:86px;object-fit:contain;filter:none;}
+    .nav-bar nav{min-width:0;align-items:center;flex-wrap:wrap;row-gap:.2rem;}
+    .nav-bar nav a{padding:.5rem .8rem;letter-spacing:.045em;}
+    .services-menu{align-self:center;}
+    #accueil{min-height:0;padding:clamp(4rem,7vw,6rem) 1.5rem clamp(4.5rem,7vw,6rem);scroll-margin-top:0;}
+    .hero-content{max-width:1000px;padding:0 1rem;}
+    .hero-badge{margin-bottom:1.3rem;}
+    .hero-title{font-size:clamp(2.2rem,5vw,4.4rem);line-height:1.1;margin-bottom:1.1rem;}
+    .hero-title-main{display:block;white-space:nowrap;}
+    .hero-title .accent{display:block;margin-top:.1em;}
+    .hero-slogan{margin-bottom:1.4rem;}
+    .hero-desc{margin-bottom:1.9rem;}
+    .hero-chips{margin-bottom:2rem;}
+    .hero-scroll{display:none;}
+    section:not(#accueil){scroll-margin-top:125px;}
+    @media(max-width:1050px){
+      .nav-bar{grid-template-columns:205px minmax(0,1fr) auto;column-gap:.65rem;min-height:86px;}
+      .nav-logo{width:205px;}
+      .nav-bar nav a{font-size:.74rem;padding:.45rem .55rem;}
+      .nav-cta{padding:.75rem .9rem;}
+    }
+    @media(max-width:900px){
+      .header-top{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.35rem 1rem;}
+      .nav-bar{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.55rem;padding:.6rem 1rem;min-height:0;}
+      .nav-logo{width:190px;}
+      .nav-logo img{width:100%;height:auto;max-height:72px;}
+      .nav-bar nav{flex:1 1 330px;justify-content:center;flex-wrap:wrap;gap:.15rem;}
+      .nav-bar nav a{font-size:.72rem;padding:.45rem .5rem;}
+      .nav-cta{font-size:.72rem;padding:.65rem .85rem;}
+      #accueil{padding:4rem 1rem 4.5rem;}
+      .hero-content{padding:0;}
+      .hero-title{font-size:clamp(2rem,6.4vw,3.8rem);}
+      section:not(#accueil){scroll-margin-top:185px;}
+    }
+    @media(max-width:600px){
+      .header-top span{font-size:.62rem;letter-spacing:.04em;}
+      .nav-logo{width:160px;}
+      .nav-bar nav{order:3;flex:1 1 100%;justify-content:center;}
+      .nav-bar nav a{font-size:.69rem;padding:.4rem .45rem;border-right:0;}
+      .nav-bar nav a:first-child{border-left:0;}
+      .nav-cta{margin-left:auto;}
+      .services-menu summary{padding:.4rem .3rem;}
+      .hero-badge{font-size:.62rem;letter-spacing:.07em;padding:.5rem .8rem;}
+      .hero-title{font-size:clamp(2rem,8.3vw,3.1rem);}
+      .hero-title-main{white-space:normal;}
+      .hero-slogan{font-size:1rem;}
+      .hero-desc{font-size:.92rem;line-height:1.7;}
+      .hero-chips{gap:.4rem;}
+      .chip{font-size:.65rem;padding:.35rem .65rem;}
+      .hero-btns{gap:.7rem;}
+      .btn-white,.btn-ghost{width:100%;max-width:340px;text-align:center;padding:.85rem 1rem;font-size:.75rem;}
+      section:not(#accueil){scroll-margin-top:205px;}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .hero-content,.hero-badge,.hero-title,.hero-slogan,.hero-desc,.hero-chips,.hero-btns{animation:none;}
+    }
   </style>
   <style>
     .analytics-consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 9999; max-width: 760px; margin: auto; background: #fff; color: #1c2d4a; border: 1px solid #b7cce6; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,.2); font: 14px/1.5 Arial,sans-serif; }
@@ -449,7 +511,7 @@
     <span><a href="tel:+33758881415">📞 +33 7 58 88 14 15</a> &nbsp;/&nbsp; <a href="tel:+33622982424">+33 6 22 98 24 24</a></span>
   </div>
   <div class="nav-bar">
-    <a class="nav-logo" href="#accueil"><img src="/assets/brand/logo-principal.svg" alt="ECO-BGR Multi Services — Nettoyage professionnel Île-de-France"/></a>
+    <a class="nav-logo" href="#accueil" aria-label="ECO-BGR : accueil"><img src="/assets/brand/logo-horizontal.svg" alt="ECO-BGR Nettoyage Multi Services" width="250" height="90" fetchpriority="high"/></a>
     <nav>
       <a href="#accueil">🏠 Accueil</a>
       <a href="#nos-services">🧹 Services</a>
@@ -473,7 +535,7 @@
   <div class="hero-circles"></div>
   <div class="hero-content">
     <div class="hero-badge">Services de nettoyage professionnels</div>
-    <h1 class="hero-title">Propreté. Confiance.<br><span class="accent">Efficacité.</span></h1>
+    <h1 class="hero-title"><span class="hero-title-main">Propreté. Confiance.</span><span class="accent">Efficacité.</span></h1>
     <p class="hero-slogan">ECO BGR — Expertise et engagement durable...</p>
     <p class="hero-desc">Votre partenaire de confiance pour des espaces impeccables. Des prestations sur mesure, adaptées à chaque environnement, réalisées avec soin et dans le respect de la nature.</p>
     <div class="hero-chips">
