@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ecobgr.fr/</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
+<url><loc>https://ecobgr.fr/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-fin-chantier/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-bureaux/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-airbnb/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-residentiel/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-coproprietes/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-commerces/</loc></url>
+<url><loc>https://ecobgr.fr/services/nettoyage-cabinets-medicaux/</loc></url>
+<url><loc>https://ecobgr.fr/services/location-linge/</loc></url>
 </urlset>
