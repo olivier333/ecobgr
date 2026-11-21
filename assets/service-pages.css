@@ -16,3 +16,10 @@
 .navlinks{flex:1 1 100%;justify-content:center}
 .navlinks a{font-size:.8rem}
 }
+
+/* ECOBGR-UX-04 : logo original recadré (marges blanches intégrées supprimées). */
+.nav{min-height:116px}
+.brand{flex:0 0 165px;width:165px;height:112px;overflow:visible;justify-content:flex-start}
+.brand img{display:block;width:150px;height:110px;max-width:100%;object-fit:contain;flex-shrink:0}
+@media(max-width:760px){.brand{flex-basis:135px;width:135px;height:94px}.brand img{width:125px;height:92px}}
+@media(max-width:460px){.brand{flex-basis:115px;width:115px;height:84px}.brand img{width:108px;height:82px}}

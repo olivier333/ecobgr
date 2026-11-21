@@ -101,7 +101,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preload" as="image" href="/logo.jpeg"/>
+  <link rel="preload" as="image" href="/assets/brand/logo-original-cadre.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -461,6 +461,13 @@
 @media(max-width:1050px){.nav-bar{grid-template-columns:170px minmax(0,1fr) auto;min-height:120px;}.nav-logo{width:170px;height:115px}.nav-logo img{width:168px;height:168px;max-height:none}}
 @media(max-width:900px){.nav-bar{min-height:0}.nav-logo{width:155px;height:105px}.nav-logo img{width:155px;height:155px;max-height:none}}
 @media(max-width:600px){.nav-logo{width:130px;height:90px}.nav-logo img{width:130px;height:130px;max-height:none}}
+
+/* ECOBGR-UX-04 : affichage du logo original recadré */
+.nav-logo{width:185px;height:123px;overflow:visible;justify-content:flex-start}
+.nav-logo img{width:164px;height:120px;max-height:120px;object-fit:contain}
+@media(max-width:1050px){.nav-logo{width:165px;height:110px}.nav-logo img{width:148px;height:108px;max-height:108px}}
+@media(max-width:900px){.nav-logo{width:150px;height:104px}.nav-logo img{width:139px;height:102px;max-height:102px}}
+@media(max-width:600px){.nav-logo{width:126px;height:88px}.nav-logo img{width:118px;height:86px;max-height:86px}}
   </style>
   <style>
     .analytics-consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 9999; max-width: 760px; margin: auto; background: #fff; color: #1c2d4a; border: 1px solid #b7cce6; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,.2); font: 14px/1.5 Arial,sans-serif; }
@@ -528,7 +535,7 @@
     <span><a href="tel:+33758881415">📞 +33 7 58 88 14 15</a> &nbsp;/&nbsp; <a href="tel:+33622982424">+33 6 22 98 24 24</a></span>
   </div>
   <div class="nav-bar">
-    <a class="nav-logo" href="#accueil" aria-label="ECO-BGR : accueil"><img src="/logo.jpeg" alt="ECO-BGR Nettoyage Multi Services" width="500" height="500" fetchpriority="high"/></a>
+    <a class="nav-logo" href="#accueil" aria-label="ECO-BGR : accueil"><img src="/assets/brand/logo-original-cadre.svg" alt="ECO-BGR Nettoyage Multi Services" width="500" height="500" fetchpriority="high"/></a>
     <nav>
       <a href="#accueil">🏠 Accueil</a>
       <a href="#nos-services">🧹 Services</a>
@@ -720,7 +727,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-logo">
-          <img src="/logo.jpeg" alt="Logo ECO-BGR Multi Services"/>
+          <img src="/assets/brand/logo-original-cadre.svg" alt="Logo ECO-BGR Multi Services"/>
           <div><div class="footer-logo-text">ECO-BGR Multi Services</div><div class="footer-logo-sub">Nettoyage Professionnel</div></div>
         </div>
         <p class="footer-desc">Votre partenaire de confiance pour des espaces propres, sains et accueillants. Prestations sur mesure pour tous types d'environnements.</p>
