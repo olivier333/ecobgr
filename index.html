@@ -453,6 +453,14 @@
 @media(max-width:1050px){.nav-bar{grid-template-columns:132px minmax(0,1fr) auto;}.nav-logo{width:132px}.nav-logo img{width:112px;height:88px;max-height:88px}}
 @media(max-width:900px){.nav-logo{width:122px}.nav-logo img{width:105px;height:84px;max-height:84px}}
 @media(max-width:600px){.nav-logo{width:108px}.nav-logo img{width:95px;height:77px;max-height:77px}}
+
+/* ECOBGR-UX-03 : logo original agrandi, sans retoucher son dessin */
+.nav-bar{grid-template-columns:195px minmax(0,1fr) auto;min-height:134px;}
+.nav-logo{width:195px;height:130px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.nav-logo img{display:block;width:190px;height:190px;max-height:none;object-fit:contain;flex-shrink:0;filter:none;}
+@media(max-width:1050px){.nav-bar{grid-template-columns:170px minmax(0,1fr) auto;min-height:120px;}.nav-logo{width:170px;height:115px}.nav-logo img{width:168px;height:168px;max-height:none}}
+@media(max-width:900px){.nav-bar{min-height:0}.nav-logo{width:155px;height:105px}.nav-logo img{width:155px;height:155px;max-height:none}}
+@media(max-width:600px){.nav-logo{width:130px;height:90px}.nav-logo img{width:130px;height:130px;max-height:none}}
   </style>
   <style>
     .analytics-consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 9999; max-width: 760px; margin: auto; background: #fff; color: #1c2d4a; border: 1px solid #b7cce6; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,.2); font: 14px/1.5 Arial,sans-serif; }
